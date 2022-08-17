@@ -68,7 +68,7 @@ class ClientCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Crea
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Creación un Cliente'
+        context['title'] = 'Crear un Cliente'
         context['entity'] = 'Clientes'
         context['list_url'] = self.success_url
         context['action'] = 'add'
@@ -102,7 +102,7 @@ class ClientUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Upda
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Edición un Cliente'
+        context['title'] = 'Editar un Cliente'
         context['entity'] = 'Clientes'
         context['list_url'] = self.success_url
         context['action'] = 'edit'
@@ -130,7 +130,7 @@ class ClientDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Dele
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Eliminación de un Cliente'
+        context['title'] = 'Eliminar un Cliente'
         context['entity'] = 'Clientes'
         context['list_url'] = self.success_url
         return context

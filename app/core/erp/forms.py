@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from django.forms import *
+from django.forms import forms
 
 from core.erp.models import Category, Product, Client, Sale
 
@@ -121,7 +122,8 @@ class ClientForm(ModelForm):
         form = super()
         try:
             if form.is_valid():
-                form.save()
+                instance = form.save()
+                data = instance.toJSON()
             else:
                 data['error'] = form.errors
         except Exception as e:
@@ -161,14 +163,15 @@ class TestForm(Form):
 class SaleForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['cli'].queryset = Client.objects.none()
 
     class Meta:
         model = Sale
         fields = '__all__'
         widgets = {
             'cli': Select(attrs={
-                'class': 'form-control select2',
-                'style': 'width: 100%'
+                'class': 'custom-select select2',
+                # 'style': 'width: 100%'
             }),
             'date_joined': DateInput(
                 format='%Y-%m-%d',
