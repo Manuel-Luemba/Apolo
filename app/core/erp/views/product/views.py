@@ -5,7 +5,6 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-
 from core.erp.forms import ProductForm
 from core.erp.mixins import ValidatePermissionRequiredMixin
 from core.erp.models import Product
@@ -16,9 +15,9 @@ class ProductListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListV
     template_name = 'product/list.html'
     permission_required = 'view_product', 'change_product', 'delete_product', 'add_product'
 
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+    # @method_decorator(csrf_exempt)
+    # def dispatch(self, request, *args, **kwargs):
+    #     return super().dispatch(request, *args, **kwargs)
 
 
     def post(self, request, *args, **kwargs):
@@ -52,8 +51,8 @@ class ProductCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Cre
     permission_required = 'add_product'
     url_redirect = success_url
 
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+    # def dispatch(self, request, *args, **kwargs):
+    #     return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         data = {}
@@ -85,9 +84,9 @@ class ProductUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Upd
     permission_required = 'change_product'
     url_redirect = success_url
 
-    def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
+    # def dispatch(self, request, *args, **kwargs):
+    #     self.object = self.get_object()
+    #     return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         data = {}
@@ -118,10 +117,10 @@ class ProductDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Del
     permission_required = 'delete_product'
     url_redirect = success_url
 
-    @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
+    # @method_decorator(login_required)
+    # def dispatch(self, request, *args, **kwargs):
+    #     self.object = self.get_object()
+    #     return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         data = {}

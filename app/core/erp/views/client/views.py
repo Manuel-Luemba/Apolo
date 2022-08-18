@@ -15,9 +15,9 @@ class ClientListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListVi
     template_name = 'client/list.html'
     permission_required = 'erp.view_client'
 
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+    # @method_decorator(csrf_exempt)
+    # def dispatch(self, request, *args, **kwargs):
+    #     return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         data = {}
@@ -50,8 +50,8 @@ class ClientCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Crea
     permission_required = 'erp.add_client'
     url_redirect = success_url
 
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+    # def dispatch(self, request, *args, **kwargs):
+    #     return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         data = {}
@@ -83,9 +83,9 @@ class ClientUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Upda
     permission_required = 'erp.change_client'
     url_redirect = success_url
 
-    def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
+    # def dispatch(self, request, *args, **kwargs):
+    #     self.object = self.get_object()
+    #     return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         data = {}
@@ -116,9 +116,9 @@ class ClientDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Dele
     permission_required = 'erp.delete_client'
     url_redirect = success_url
 
-    def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
+    # def dispatch(self, request, *args, **kwargs):
+    #     self.object = self.get_object()
+    #     return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         data = {}

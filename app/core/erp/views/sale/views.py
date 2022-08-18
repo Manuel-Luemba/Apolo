@@ -7,18 +7,14 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from weasyprint import CSS, HTML
-
 from core.erp.forms import SaleForm, ClientForm, CategoryForm
 from core.erp.mixins import ValidatePermissionRequiredMixin
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView, View
-
 from core.erp.models import Sale, Product, DetSale, Client
-
 import os
 from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import get_template
-
 
 
 class SaleListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView):
@@ -26,9 +22,9 @@ class SaleListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView
     template_name = 'sale/list.html'
     permission_required = 'erp.view_sale'
 
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+    # @method_decorator(csrf_exempt)
+    # def dispatch(self, request, *args, **kwargs):
+    #     return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         data = {}
@@ -65,9 +61,9 @@ class SaleCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Create
     permission_required = 'erp.add_sale'
     url_redirect = success_url
 
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+    # @method_decorator(csrf_exempt)
+    # def dispatch(self, request, *args, **kwargs):
+    #     return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         data = {}
@@ -155,9 +151,9 @@ class SaleUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Update
     permission_required = 'erp.change_sale'
     url_redirect = success_url
 
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+    # @method_decorator(csrf_exempt)
+    # def dispatch(self, request, *args, **kwargs):
+    #     return super().dispatch(request, *args, **kwargs)
 
     def get_form(self, form_class=None):
         instance = self.get_object()
@@ -262,10 +258,10 @@ class SaleDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Delete
     permission_required = 'erp.delete_sale'
     url_redirect = success_url
 
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
+    # @method_decorator(csrf_exempt)
+    # def dispatch(self, request, *args, **kwargs):
+    #     self.object = self.get_object()
+    #     return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         data = {}
@@ -283,33 +279,7 @@ class SaleDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Delete
         return context
 
 
-class SaleInvoicePdfView(View):
-    # def link_callback(self, uri, rel):
-    #     """
-    #     Convert HTML URIs to absolute system paths so xhtml2pdf can access those
-    #     resources
-    #     """
-    #     # use short variable names
-    #     sUrl = settings.STATIC_URL  # Typically /static/
-    #     sRoot = settings.STATIC_ROOT  # Typically /home/userX/project_static/
-    #     mUrl = settings.MEDIA_URL  # Typically /static/media/
-    #     mRoot = settings.MEDIA_ROOT  # Typically /home/userX/project_static/media/
-    #
-    #     # convert URIs to absolute system paths
-    #     if uri.startswith(mUrl):
-    #         path = os.path.join(mRoot, uri.replace(mUrl, ""))
-    #     elif uri.startswith(sUrl):
-    #         path = os.path.join(sRoot, uri.replace(sUrl, ""))
-    #     else:
-    #         return uri  # handle absolute uri (ie: http://some.tld/foo.png)
-    #
-    #     # make sure that file exists
-    #     if not os.path.isfile(path):
-    #         raise Exception(
-    #             'media URI must start with %s or %s' % (sUrl, mUrl)
-    #         )
-    #     return path
-
+class SaleInvoicePdfView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         try:
             template = get_template('sale/invoice.html')
@@ -322,7 +292,6 @@ class SaleInvoicePdfView(View):
             css_url = os.path.join(settings.BASE_DIR, 'static/lib/bootstrap-4.4.1-dist/css/bootstrap.min.css')
             pdf = HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(stylesheets=[CSS(css_url)])
             return HttpResponse(pdf, content_type='application/pdf')
-
         except:
             pass
         return HttpResponseRedirect(reverse_lazy('erp:sale_list'))
